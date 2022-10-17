@@ -188,8 +188,9 @@ def create_next_state_planet(previous):
 	return previous
 
 
-def create_next_state_planet_research(previous, lower, lowerDecrease, lowerDeviationChancePercent,\
-												upper, upperIncrease, upperDeviationChancePercent):
+def create_next_state_planet_research(previous,\
+										lower, lowerDecrease, lowerDeviationChancePercent,\
+											upper, upperIncrease, upperDeviationChancePercent):
 
 	# neighborhood count
 	nbhr_count = []
@@ -239,21 +240,26 @@ def create_next_state_planet_research(previous, lower, lowerDecrease, lowerDevia
 			###########################################
 			###########################################
 
+			lowerProbabilistic = lower
+			upperProbabilistic = upper
+
 			dice = random.randint(1, 100)
 			if (dice/100 <= lowerDeviationChancePercent):
-				lower -= lowerDecrease
+				lowerProbabilistic -= lowerDecrease
 			dice = random.randint(1, 100)
 			if (dice/100 <= upperDeviationChancePercent):
-				upper += upperIncrease
+				upperProbabilistic += upperIncrease
+
 			m = nbhr_count[y][x]
 			if previous [n*y + x] == "*": # if the cell is alive
 				# should be m<2 or m>3 for original conway's set of rules.
-				if m < lower or m > upper:
+				if m < lowerProbabilistic or m > upperProbabilistic:
 					previous[n*y + x] = " "
 			else: # if the cell is dead
 				# should be m == 3 for original conway's set of rules
-				if m == upper:
+				if m == upperProbabilistic:
 					previous[n*y + x] = "*"
+
 			x+=1
 		y+=1
 

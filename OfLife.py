@@ -29,12 +29,12 @@ SCREEN_TITLE = "Of Life, The Game [Realm 0 : Entity 1]"
 ###########################################
 ##########  Ask for User Input  ###########
 ###########################################
-lower = int(input("Please enter a lower bound 1-8 ... (2 for Conway's Game Of Life):: "))
+lower = int(input("Please enter a lower bound 1-7 ... (2 for Conway's Game Of Life):: "))
 lowerDecrease = 1
-lowerDeviationChancePercent = 0.05
-upper = int(input("Please enter an upper bound 3-8 ... (3 for Conway's Game Of Life:: "))
-upperIncrease = random.randint(1, 8 - upper) # this allows up to maximum 8 neighbors
-upperDeviationChancePercent = int(1 / (500*(upper + upperIncrease)))
+lowerDeviationChancePercent = 0.01
+upper = int(input("Please enter an upper bound 3-7 ... (3 for Conway's Game Of Life:: "))
+upperIncrease = random.randint(0, 7 - upper) # this allows up to maximum <8 neighbors
+upperDeviationChancePercent = 0.02
 ###########################################
 ###########################################
 ###########################################
@@ -251,6 +251,8 @@ class OfLifeSimulation(arcade.Window):
 
 	def on_update(self, delta_time):
 
+		time.sleep(0.1); # sleep 0.1 second
+
 		if self.paused == False:
 			self.time += 1
 
@@ -276,41 +278,44 @@ class OfLifeSimulation(arcade.Window):
 				# chunk 1 is completely random within the planet realm
 				chunk1 = 33 # total size in count of the chunk, probablistically
 				chunk1Side = int(math.sqrt(chunk1))  # approx side length of the chunk square
-				lowerbound1 = random.randint(0, N-chunk1Side)
-				upperbound1 = lowerbound1 + chunk1Side
-				for s in range(0, chunk1Side):
-					for i in range(lowerbound1 + s*n, upperbound1 + s*n): # end index is exclusive by python
-						choice = random.randint(0, 100)
-						if (choice > chunk1):
-							self.nextState[i % N] = " "
-						else:  # i.e. choice == 1::
-							self.nextState[i % N] = "*"
+				if (N-chunk1Side > 0):
+					lowerbound1 = random.randint(0, N-chunk1Side)
+					upperbound1 = lowerbound1 + chunk1Side
+					for s in range(0, chunk1Side):
+						for i in range(lowerbound1 + s*n, upperbound1 + s*n): # end index is exclusive by python
+							choice = random.randint(0, 100)
+							if (choice > chunk1):
+								self.nextState[i % N] = " "
+							else:  # i.e. choice == 1::
+								self.nextState[i % N] = "*"
 
-				# chunk 2 must happen "near" chunk 1 and is smaller by factor of e
-				chunk2 = int(chunk1/math.e);
-				chunk2Side = int(math.sqrt(chunk2))
-				lowerbound2 = random.randint(0, lowerbound1 - chunk2Side)
-				upperbound2 = lowerbound2 + chunk2Side
-				for s in range(0, chunk2Side):
-					for i in range(lowerbound2 + s*n, upperbound2 + s*n):  # end index is exclusive by python
-						choice = random.randint(0, 100)
-						if (choice > chunk2):
-							self.nextState[i % N] = " "
-						else:  # i.e. choice == 1::
-							self.nextState[i % N] = "*"
+					# chunk 2 must happen "near" chunk 1 and is smaller by factor of e
+					chunk2 = int(chunk1/math.e);
+					chunk2Side = int(math.sqrt(chunk2))
+					if (lowerbound1 - chunk2Side > 0):
+						lowerbound2 = random.randint(0, lowerbound1 - chunk2Side)
+						upperbound2 = lowerbound2 + chunk2Side
+						for s in range(0, chunk2Side):
+							for i in range(lowerbound2 + s*n, upperbound2 + s*n):  # end index is exclusive by python
+								choice = random.randint(0, 100)
+								if (choice > chunk2):
+									self.nextState[i % N] = " "
+								else:  # i.e. choice == 1::
+									self.nextState[i % N] = "*"
 
-				# chunk 3 must happen "near" chunk 2 and is smaller by factor of e
-				chunk3 = int(chunk2/math.e);
-				chunk3Side = int(math.sqrt(chunk3))
-				lowerbound3 = random.randint(0, lowerbound2 - chunk3Side)
-				upperbound3 = lowerbound3 + chunk3Side
-				for s in range(0, chunk3Side):
-					for i in range(lowerbound3 + s*n, upperbound3 + s*n):  # end index is exclusive by python
-						choice = random.randint(0, 100)
-						if (choice > chunk3):
-							self.nextState[i % N] = " "
-						else:  # i.e. choice == 1::
-							self.nextState[i % N] = "*"
+						# chunk 3 must happen "near" chunk 2 and is smaller by factor of e
+						chunk3 = int(chunk2/math.e);
+						chunk3Side = int(math.sqrt(chunk3))
+						if (lowerbound2 - chunk3Side > 0):
+							lowerbound3 = random.randint(0, lowerbound2 - chunk3Side)
+							upperbound3 = lowerbound3 + chunk3Side
+							for s in range(0, chunk3Side):
+								for i in range(lowerbound3 + s*n, upperbound3 + s*n):  # end index is exclusive by python
+									choice = random.randint(0, 100)
+									if (choice > chunk3):
+										self.nextState[i % N] = " "
+									else:  # i.e. choice == 1::
+										self.nextState[i % N] = "*"
 
 			if self.User.life > 0:
 				user_location = self.User.shape_location[0][0] + n*self.User.shape_location[0][1]
