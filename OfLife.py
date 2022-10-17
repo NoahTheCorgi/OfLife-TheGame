@@ -31,10 +31,10 @@ SCREEN_TITLE = "Of Life, The Game [Realm 0 : Entity 1]"
 ###########################################
 lower = int(input("Please enter a lower bound 1-7 ... (2 for Conway's Game Of Life):: "))
 lowerDecrease = 1
-lowerDeviationChancePercent = 0.01
+lowerDeviationChancePercent = 0.1
 upper = int(input("Please enter an upper bound 3-7 ... (3 for Conway's Game Of Life:: "))
 upperIncrease = random.randint(0, 7 - upper) # this allows up to maximum <8 neighbors
-upperDeviationChancePercent = 0.02
+upperDeviationChancePercent = 0.1
 ###########################################
 ###########################################
 ###########################################
