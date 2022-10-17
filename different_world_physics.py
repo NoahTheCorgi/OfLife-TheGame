@@ -7,6 +7,7 @@ import random
 n = 100
 N=n*n # total number of cells
 
+
 # randomized game of life world initial state generation
 def determine_new_world():
 	wworld = []
@@ -187,7 +188,8 @@ def create_next_state_planet(previous):
 	return previous
 
 
-def create_next_state_planet_research(previous):
+def create_next_state_planet_research(previous, lower, lowerDecrease, lowerDeviationChancePercent,\
+												upper, upperIncrease, upperDeviationChancePercent):
 
 	# neighborhood count
 	nbhr_count = []
@@ -227,16 +229,16 @@ def create_next_state_planet_research(previous):
 			###########################################
 			### Research World Physics Customizable ###
 			###########################################
-			lower = 2
-			lowerDecrease = 1
-			lowerDeviationChancePercent = 0.05
-			upper = 3
-			upperIncrease = random.randint(1, 5) # this allows up to maximum 8 neighbors
+			# lower = 2
+			# lowerDecrease = 1
+			# lowerDeviationChancePercent = 0.05
+			# upper = 3
+			# upperIncrease = random.randint(1, 8 - upper) # this allows up to maximum 8 neighbors
+			# upperDeviationChancePercent = int(1 / (500*(upper + upperIncrease)))
 			###########################################
 			###########################################
 			###########################################
 
-			upperDeviationChancePercent = int(1 / (500*(upper + upperIncrease)))
 			dice = random.randint(1, 100)
 			if (dice/100 <= lowerDeviationChancePercent):
 				lower -= lowerDecrease

@@ -26,6 +26,19 @@ SCREEN_WIDTH = s*n
 SCREEN_HEIGHT = s*n
 SCREEN_TITLE = "Of Life, The Game [Realm 0 : Entity 1]"
 
+###########################################
+##########  Ask for User Input  ###########
+###########################################
+lower = int(input("Please enter a lower bound 1-8 ... (2 for Conway's Game Of Life):: "))
+lowerDecrease = 1
+lowerDeviationChancePercent = 0.05
+upper = int(input("Please enter an upper bound 3-8 ... (3 for Conway's Game Of Life:: "))
+upperIncrease = random.randint(1, 8 - upper) # this allows up to maximum 8 neighbors
+upperDeviationChancePercent = int(1 / (500*(upper + upperIncrease)))
+###########################################
+###########################################
+###########################################
+
 class OfLifeSimulation(arcade.Window):
 
 	def __init__(self, width, height, title):
@@ -250,8 +263,9 @@ class OfLifeSimulation(arcade.Window):
 			self.countframes = 0
 
 		if self.paused == False: # if sim is not paused toggled by "P" key,,,
-
-			self.nextState = create_next_state_planet_research(self.nextState)
+			self.nextState = create_next_state_planet_research(self.nextState, lower, lowerDecrease,\
+								lowerDeviationChancePercent, upper, upperIncrease, upperDeviationChancePercent)
+			#self.nextState = create_next_state_planet_research(self.nextState)
 			
 			##########___This section creates randomized appearance with low probability___##########
 			# (completed) task 1:: randomized events -- meaningfully -- probabilistically::
