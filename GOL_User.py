@@ -9,69 +9,71 @@ from different_world_physics import *
 # The player is made of cells but the cells behave slighly differently than normal cells,,,
 # Important: property of user is that they affect the logic but is affected only by it's own cells,,,
 
-class User():
-	
-	def __init__(self):
 
-		self.color = (0, 255, 0)
-		self.decoration = None # for now,,,
+class User:
+    def __init__(self):
 
-		# for now user is just a breathing cell
-		self.shape_location = [[int(n/2), int(n/2)]] # [[int(n/2 - 1), int(n/2)], [int(n/2), int(n/2)], [int(n/2 + 1), int(n/2)]]
+        self.color = (0, 255, 0)
+        self.decoration = None  # for now,,,
 
-		# will need to update this and use it if user becomes more than a green cell
-		""" note: self.center is either a whole number or a half a whole number """
-		self.center = [int(n/2), int(n/2)]
+        # for now user is just a breathing cell
+        self.shape_location = [
+            [int(n / 2), int(n / 2)]
+        ]  # [[int(n/2 - 1), int(n/2)], [int(n/2), int(n/2)], [int(n/2 + 1), int(n/2)]]
 
-		""" very important to update these """
-		""" by calling update_most_type_locations whenever shape_location changes """
-		self.most_right = None # the indexed x location of the most right cell
-		self.most_left = None # the indexed x location of the most left cell
-		self.most_top = None # the indexed y location of the most top cell
-		self.most_bottom = None # the indexed y location of the most bottom cell
+        # will need to update this and use it if user becomes more than a green cell
+        """ note: self.center is either a whole number or a half a whole number """
+        self.center = [int(n / 2), int(n / 2)]
 
-		self.life = 10   # if a cell of user would disappear, deduct from life instead
-		self.energy = 100   # future: every move or action costs energy
+        """ very important to update these """
+        """ by calling update_most_type_locations whenever shape_location changes """
+        self.most_right = None  # the indexed x location of the most right cell
+        self.most_left = None  # the indexed x location of the most left cell
+        self.most_top = None  # the indexed y location of the most top cell
+        self.most_bottom = None  # the indexed y location of the most bottom cell
 
-	def update_most_type_locations(self):
-		self.most_right = 0
-		self.most_left = n-1
-		self.most_top = 0
-		self.most_bottom = n-1
-		for i in range(0, len(self.shape_location)):
-			if self.shape_location[i][0] > self.most_right:
-				self.most_right = self.shape_location[i][0]
-			if self.shape_location[i][0] < self.most_left:
-				self.most_left = self.shape_location[i][0]
-			if self.shape_location[i][1] > self.most_top:
-				self.most_top = self.shape_location[i][1]
-			if self.shape_location[i][1] < self.most_bottom:
-				self.most_bottom = self.shape_location[i][1]
-		self.center[0] = (self.most_right + self.most_left)
-		self.center[1] = (self.most_top + self.most_bottom)
+        self.life = 10  # if a cell of user would disappear, deduct from life instead
+        self.energy = 100  # future: every move or action costs energy
 
-	# future tasks outline:
+    def update_most_type_locations(self):
+        self.most_right = 0
+        self.most_left = n - 1
+        self.most_top = 0
+        self.most_bottom = n - 1
+        for i in range(0, len(self.shape_location)):
+            if self.shape_location[i][0] > self.most_right:
+                self.most_right = self.shape_location[i][0]
+            if self.shape_location[i][0] < self.most_left:
+                self.most_left = self.shape_location[i][0]
+            if self.shape_location[i][1] > self.most_top:
+                self.most_top = self.shape_location[i][1]
+            if self.shape_location[i][1] < self.most_bottom:
+                self.most_bottom = self.shape_location[i][1]
+        self.center[0] = self.most_right + self.most_left
+        self.center[1] = self.most_top + self.most_bottom
 
-	# def createAdjacentCell(self): # costs One Energy point
-	# 	pass
+    # future tasks outline:
 
-	# def pauseTheWorld(self): # costs 1000 energy point
-	# 	pass
+    # def createAdjacentCell(self): # costs One Energy point
+    # 	pass
 
-	# def metamorph(self, objectName): # costs 500 energy point just to become a Glider,,,
-	# 	pass
+    # def pauseTheWorld(self): # costs 1000 energy point
+    # 	pass
 
-	# def eatEntropy(self): # costs nothing
-	# 	pass
+    # def metamorph(self, objectName): # costs 500 energy point just to become a Glider,,,
+    # 	pass
 
-	# def detectEntropyAroundSelf(self): # costs nothing #this is the AI part,,,
-	# 	pass
+    # def eatEntropy(self): # costs nothing
+    # 	pass
 
-	# def createObject(self, objectName): # costs A LOT of energy to make happen
-	# 	objectList = [["Block", "celldataForBlock", "energyCostForBlock"], ["Beehive", "", ""],
-	# 					["Loaf", "", ""], ["Boat", "", ""], ["Tub", "", ""],
-	# 					["Blinker", "", ""], # this is the same as the default user shape for now,,,
-	# 					["Toad", "", ""], ["Beacon", "", ""], ["Pulsar", "", ""], ["Pentadecathlon", "", ""],
-	# 					["Glider", "", ""], ["LightWeightSpaceship", "", ""],
-	# 					["MiddleWeightSpaceship", "", ""], ["HeavyWeightSpaceship", "", ""]]
-	# 	pass
+    # def detectEntropyAroundSelf(self): # costs nothing #this is the AI part,,,
+    # 	pass
+
+    # def createObject(self, objectName): # costs A LOT of energy to make happen
+    # 	objectList = [["Block", "celldataForBlock", "energyCostForBlock"], ["Beehive", "", ""],
+    # 					["Loaf", "", ""], ["Boat", "", ""], ["Tub", "", ""],
+    # 					["Blinker", "", ""], # this is the same as the default user shape for now,,,
+    # 					["Toad", "", ""], ["Beacon", "", ""], ["Pulsar", "", ""], ["Pentadecathlon", "", ""],
+    # 					["Glider", "", ""], ["LightWeightSpaceship", "", ""],
+    # 					["MiddleWeightSpaceship", "", ""], ["HeavyWeightSpaceship", "", ""]]
+    # 	pass
